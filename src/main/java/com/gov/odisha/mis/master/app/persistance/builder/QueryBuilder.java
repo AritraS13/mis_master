@@ -1,9 +1,11 @@
 package com.gov.odisha.mis.master.app.persistance.builder;
-import com.gov.odisha.mis.master.app.persistance.dto.PanchayatDto;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
+
 import com.gov.odisha.mis.master.app.persistance.dto.BlockDto;
 import com.gov.odisha.mis.master.app.persistance.dto.DistrictDto;
-import org.springframework.stereotype.Component;
+import com.gov.odisha.mis.master.app.persistance.dto.PanchayatDto;
+import com.gov.odisha.mis.master.app.web.request.BankRequest;
 
 @Component
 public class QueryBuilder {
@@ -67,6 +69,19 @@ public class QueryBuilder {
             panchayatDto.setIsRural(rs.getString("is_rural"));
             return panchayatDto;
         };
+    }
+    
+    public String buildGetBanksQuery(BankRequest bankRequest) {
+        StringBuilder query = new StringBuilder("SELECT * FROM mis_bank_master_m WHERE 1=1");
+
+        if (bankRequest.getUuid() != null && !bankRequest.getUuid().isEmpty()) {
+            query.append(" AND uuid = '").append(bankRequest.getUuid()).append("'");
+        }
+        if (bankRequest.getCode() != null && !bankRequest.getCode().isEmpty()) {
+            query.append(" AND code = '").append(bankRequest.getCode()).append("'");
+        }
+
+        return query.toString();
     }
 
 }
