@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class AddressRequest {
 
     private String state;
-    private District district;
-    private Block block;
+    private Integer districtId;
+    private String blockId;
     private Panchayat pancahayat;
     private String village;
     private String pincode;

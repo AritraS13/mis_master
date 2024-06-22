@@ -27,7 +27,7 @@ public class AddressController {
 
 
     @PostMapping
-    public ResponseEntity<AddressResponse> getAddressResp(@RequestBody AddressRequest request) {
+    public ResponseEntity<AddressResponse> getAddressResp(@ModelAttribute AddressRequest request) {
         AddressResponse response = new AddressResponse();
         try {
             AddressDetails addressDetails = new AddressDetails();
@@ -41,12 +41,12 @@ public class AddressController {
                     addressDetails.setDistricts(districts);
                 }
 
-                if (request.getDistrict() != null) {
-                    List<Block> blocks = addressService.getBlocksByDistrict(request.getDistrict().getId());
+                if (request.getDistrictId() != null) {
+                    List<Block> blocks = addressService.getBlocksByDistrict(request.getDistrictId());
                     addressDetails.setBlocks(blocks);
                 }
-                if(request.getBlock()!=null){
-                    List<Panchayat> panchayats = addressService.getPanchayatByBlock(request.getBlock().getUuid());
+                if(request.getBlockId()!=null){
+                    List<Panchayat> panchayats = addressService.getPanchayatByBlock(request.getBlockId());
                     addressDetails.setPancahayat(panchayats);
                 }
 
