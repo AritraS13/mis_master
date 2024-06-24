@@ -1,12 +1,5 @@
 package com.common.mis.master.app.web.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
 import com.common.mis.master.app.model.Block;
 import com.common.mis.master.app.model.District;
 import com.common.mis.master.app.model.Panchayat;
@@ -14,11 +7,17 @@ import com.common.mis.master.app.service.AddressService;
 import com.common.mis.master.app.web.request.AddressRequest;
 import com.common.mis.master.app.web.response.AddressDetails;
 import com.common.mis.master.app.web.response.AddressResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/address")
+@RequestMapping("/_address/dropdown")
 public class AddressController {
 
     @Autowired
@@ -28,7 +27,7 @@ public class AddressController {
 
 
     @PostMapping
-    public ResponseEntity<AddressResponse> getAddressResp(@RequestBody AddressRequest request) {
+    public ResponseEntity<AddressResponse> getAddressResp(@ModelAttribute AddressRequest request) {
         AddressResponse response = new AddressResponse();
         try {
             AddressDetails addressDetails = new AddressDetails();
@@ -42,12 +41,12 @@ public class AddressController {
                     addressDetails.setDistricts(districts);
                 }
 
-                if (request.getDistrict() != null) {
-                    List<Block> blocks = addressService.getBlocksByDistrict(request.getDistrict().getId());
+                if (request.getDistrictId() != null) {
+                    List<Block> blocks = addressService.getBlocksByDistrict(request.getDistrictId());
                     addressDetails.setBlocks(blocks);
                 }
-                if(request.getBlock()!=null){
-                    List<Panchayat> panchayats = addressService.getPanchayatByBlock(request.getBlock().getUuid());
+                if(request.getBlockId()!=null){
+                    List<Panchayat> panchayats = addressService.getPanchayatByBlock(request.getBlockId());
                     addressDetails.setPancahayat(panchayats);
                 }
 
@@ -71,3 +70,4 @@ public class AddressController {
         return ResponseEntity.ok("pong");
     }
 }
+
